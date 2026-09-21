@@ -1,16 +1,9 @@
 <template>
-  <ion-page>
-    <ion-header :translucent="true">
-      <ion-toolbar>
-        <ion-title>Perfil</ion-title>
-      </ion-toolbar>
-    </ion-header>
-
-    <ion-content :fullscreen="true">
-    </ion-content>
-  </ion-page>
+  <div>
+    <h2>Perfil</h2>
+    <p>Aquí va el contenido de perfil.</p>
+  </div>
 </template>
 
 <script setup lang="ts">
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/vue';
 </script>
