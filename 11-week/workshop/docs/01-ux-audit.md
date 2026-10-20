@@ -91,17 +91,25 @@ The following aspects require browser verification:
 
 These checks are pending browser validation and will be addressed in CP4.
 
-## 8. Baseline screenshots
 
-The screenshots must come from the running application.
+## 8. Baseline Screenshots
 
-Required files:
+The following screenshots document the original Ionic React starter before implementing Attendance Control screens.
 
-- docs/img/before-list.png
-- docs/img/before-detail.png
-- docs/img/before-form.png
+### Product List
 
-Screenshots remain pending until the application is executed locally.
+![Original product list](img/before-list.png)
+
+### Product Detail
+
+![Original product detail](img/before-detail.png)
+
+### Product Form
+
+![Original product form](img/before-form.png)
+
+These screenshots provide the initial reference for evaluating the UX/UI improvements implemented during the workshop.
+
 
 ## 9. Priorities
 
