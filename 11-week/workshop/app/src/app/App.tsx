@@ -16,8 +16,10 @@ import {
   timeOutline,
 } from 'ionicons/icons';
 
+import { AttendanceHistoryPage } from
+  '../features/attendance/presentation/AttendanceHistoryPage';
+
 import {
-  AttendanceHistoryPage,
   ClassesPage,
   QrScanPage,
 } from '../features/attendance/presentation/StudentTabsPages';
@@ -37,32 +39,50 @@ const App: React.FC = () => (
     <IonReactRouter>
       <IonTabs>
         <IonRouterOutlet>
-          <Route exact path="/tabs/historial"
-            component={AttendanceHistoryPage} />
-          <Route exact path="/tabs/clases"
-            component={ClassesPage} />
-          <Route exact path="/tabs/escanear"
-            component={QrScanPage} />
+          <Route
+            exact
+            path="/tabs/historial"
+            component={AttendanceHistoryPage}
+          />
+          <Route
+            exact
+            path="/tabs/clases"
+            component={ClassesPage}
+          />
+          <Route
+            exact
+            path="/tabs/escanear"
+            component={QrScanPage}
+          />
           <Route exact path="/">
             <Redirect to="/tabs/historial" />
           </Route>
         </IonRouterOutlet>
 
         <IonTabBar slot="bottom">
-          <IonTabButton tab="historial" href="/tabs/historial"
-            aria-label="Historial de asistencia">
+          <IonTabButton
+            tab="historial"
+            href="/tabs/historial"
+            aria-label="Historial de asistencia"
+          >
             <IonIcon icon={timeOutline} />
             <IonLabel>Historial</IonLabel>
           </IonTabButton>
 
-          <IonTabButton tab="clases" href="/tabs/clases"
-            aria-label="Mis clases">
+          <IonTabButton
+            tab="clases"
+            href="/tabs/clases"
+            aria-label="Mis clases"
+          >
             <IonIcon icon={calendarOutline} />
             <IonLabel>Clases</IonLabel>
           </IonTabButton>
 
-          <IonTabButton tab="escanear" href="/tabs/escanear"
-            aria-label="Escanear código QR">
+          <IonTabButton
+            tab="escanear"
+            href="/tabs/escanear"
+            aria-label="Escanear código QR"
+          >
             <IonIcon icon={qrCodeOutline} />
             <IonLabel>Escanear QR</IonLabel>
           </IonTabButton>

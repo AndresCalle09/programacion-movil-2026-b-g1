@@ -1,0 +1,114 @@
+
+import { useCallback, useEffect, useState } from 'react';
+import {
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonPage,
+  IonSkeletonText,
+  IonTitle,
+  IonToolbar,
+} from '@ionic/react';
+import {
+  getAttendanceHistory,
+  type AttendanceRecord,
+  type AttendanceScenario,
+} from '../data/attendance-service';
+
+type LoadState = 'loading' | 'success' | 'error';
+
+export const AttendanceHistoryPage: React.FC = () => {
+  const [records, setRecords] = useState<AttendanceRecord[]>([]);
+  const [state, setState] = useState<LoadState>('loading');
+
+  const params = new URLSearchParams(window.location.search);
+  const requestedScenario = params.get('scenario');
+  const scenario: AttendanceScenario =
+    requestedScenario === 'error' || requestedScenario === 'empty'
+      ? requestedScenario
+      : 'success';
+
+  const loadHistory = useCallback(async () => {
+    setState('loading');
+
+    try {
+      const data = await getAttendanceHistory(scenario);
+      setRecords(data);
+      setState('success');
+    } catch {
+      setState('error');
+    }
+  }, [scenario]);
+
+  useEffect(() => {
+    void loadHistory();
+  }, [loadHistory]);
+
+  return (
+    <IonPage>
+      <IonHeader>
+        <IonToolbar color="primary">
+          <IonTitle>Historial de asistencia</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+
+      <IonContent className="ion-padding">
+        {state === 'loading' && (
+          <IonList aria-label="Cargando historial">
+            {[1, 2, 3].map((item) => (
+              <IonItem key={item}>
+                <IonLabel>
+                  <IonSkeletonText animated style={{ width: '70%' }} />
+                  <IonSkeletonText animated style={{ width: '45%' }} />
+                </IonLabel>
+              </IonItem>
+            ))}
+          </IonList>
+        )}
+
+        {state === 'error' && (
+          <div role="alert">
+            <h2>No se pudo cargar el historial</h2>
+            <p>Comprueba tu conexión e inténtalo nuevamente.</p>
+            <IonButton onClick={() => void loadHistory()}>
+              Reintentar
+            </IonButton>
+          </div>
+        )}
+
+        {state === 'success' && records.length === 0 && (
+          <div>
+            <h2>Aún no tienes asistencias registradas</h2>
+            <p>Cuando registres asistencia con un QR, aparecerá aquí.</p>
+            <IonButton routerLink="/tabs/escanear">
+              Ir a escanear QR
+            </IonButton>
+          </div>
+        )}
+
+        {state === 'success' && records.length > 0 && (
+          <IonList>
+            {records.map((record) => (
+              <IonItem key={record.id}>
+                <IonLabel>
+                  <h2>{record.courseName}</h2>
+                  <p>
+                    {new Date(record.dateTime).toLocaleString('es-CO')}
+                  </p>
+                  <p>
+                    {record.status === 'PRESENT'
+                      ? 'Asistencia registrada'
+                      : 'Ausencia'}
+                  </p>
+                </IonLabel>
+              </IonItem>
+            ))}
+          </IonList>
+        )}
+      </IonContent>
+    </IonPage>
+  );
+};
