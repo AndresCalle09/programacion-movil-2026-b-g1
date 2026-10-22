@@ -1,9 +1,42 @@
-/* Tema mínimo: verde institucional como color primario */
+
 :root {
-  --ion-color-primary: #009540;
-  --ion-color-primary-rgb: 0, 149, 64;
+  --ion-color-primary: #0b6e4f;
+  --ion-color-primary-rgb: 11, 110, 79;
   --ion-color-primary-contrast: #ffffff;
   --ion-color-primary-contrast-rgb: 255, 255, 255;
-  --ion-color-primary-shade: #008338;
-  --ion-color-primary-tint: #1aa053;
+  --ion-color-primary-shade: #0a6146;
+  --ion-color-primary-tint: #237d61;
+
+  --ion-color-secondary: #17324d;
+  --ion-color-secondary-rgb: 23, 50, 77;
+  --ion-color-secondary-contrast: #ffffff;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
+  --ion-color-secondary-shade: #142c44;
+  --ion-color-secondary-tint: #2e475f;
+
+  --ion-color-success: #166534;
+  --ion-color-danger: #b42318;
+
+  --ion-background-color: #f6f8fa;
+  --ion-text-color: #1b2838;
+
+  --app-surface: #ffffff;
+  --app-font-family: system-ui, sans-serif;
+  --app-font-size: 1rem;
+  --app-title-size: 1.5rem;
+  --app-space-small: 0.5rem;
+  --app-space-medium: 1rem;
+  --app-space-large: 1.5rem;
+}
+
+body {
+  font-family: var(--app-font-family);
+}
+
+ion-card {
+  --background: var(--app-surface);
+}
+
+ion-tab-button {
+  min-height: 48px;
 }
