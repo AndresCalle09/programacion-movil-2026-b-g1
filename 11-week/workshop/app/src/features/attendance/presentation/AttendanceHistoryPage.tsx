@@ -1,5 +1,5 @@
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import {
   IonButton,
   IonContent,
@@ -8,6 +8,8 @@ import {
   IonLabel,
   IonList,
   IonPage,
+  IonRefresher,
+  IonRefresherContent,
   IonSkeletonText,
   IonTitle,
   IonToolbar,
@@ -23,29 +25,49 @@ type LoadState = 'loading' | 'success' | 'error';
 export const AttendanceHistoryPage: React.FC = () => {
   const [records, setRecords] = useState<AttendanceRecord[]>([]);
   const [state, setState] = useState<LoadState>('loading');
+  const retryFailed = useRef(false);
 
   const params = new URLSearchParams(window.location.search);
   const requestedScenario = params.get('scenario');
+
   const scenario: AttendanceScenario =
-    requestedScenario === 'error' || requestedScenario === 'empty'
+    requestedScenario === 'error' ||
+    requestedScenario === 'empty' ||
+    requestedScenario === 'retry'
       ? requestedScenario
       : 'success';
 
   const loadHistory = useCallback(async () => {
-    setState('loading');
+  setState('loading');
 
-    try {
-      const data = await getAttendanceHistory(scenario);
-      setRecords(data);
-      setState('success');
-    } catch {
-      setState('error');
+  try {
+    if (scenario === 'retry' && !retryFailed.current) {
+      retryFailed.current = true;
+      await getAttendanceHistory('error');
     }
-  }, [scenario]);
+
+    const data = await getAttendanceHistory(
+      scenario === 'retry' ? 'success' : scenario
+    );
+
+    setRecords(data);
+    setState('success');
+  } catch {
+    setState('error');
+  }
+}, [scenario]);
 
   useEffect(() => {
-    void loadHistory();
-  }, [loadHistory]);
+  void loadHistory();
+}, [loadHistory]);
+
+  const refreshHistory = async (event: CustomEvent) => {
+    try {
+      await loadHistory();
+    } finally {
+      event.detail.complete();
+    }
+  };
 
   return (
     <IonPage>
@@ -56,13 +78,26 @@ export const AttendanceHistoryPage: React.FC = () => {
       </IonHeader>
 
       <IonContent className="ion-padding">
+        <IonRefresher
+          slot="fixed"
+          onIonRefresh={refreshHistory}
+        >
+          <IonRefresherContent />
+        </IonRefresher>
+
         {state === 'loading' && (
           <IonList aria-label="Cargando historial">
             {[1, 2, 3].map((item) => (
               <IonItem key={item}>
                 <IonLabel>
-                  <IonSkeletonText animated style={{ width: '70%' }} />
-                  <IonSkeletonText animated style={{ width: '45%' }} />
+                  <IonSkeletonText
+                    animated
+                    style={{ width: '70%' }}
+                  />
+                  <IonSkeletonText
+                    animated
+                    style={{ width: '45%' }}
+                  />
                 </IonLabel>
               </IonItem>
             ))}
@@ -82,7 +117,10 @@ export const AttendanceHistoryPage: React.FC = () => {
         {state === 'success' && records.length === 0 && (
           <div>
             <h2>Aún no tienes asistencias registradas</h2>
-            <p>Cuando registres asistencia con un QR, aparecerá aquí.</p>
+            <p>
+              Cuando registres asistencia con un QR,
+              aparecerá aquí.
+            </p>
             <IonButton routerLink="/tabs/escanear">
               Ir a escanear QR
             </IonButton>

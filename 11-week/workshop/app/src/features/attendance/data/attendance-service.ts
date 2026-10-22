@@ -10,7 +10,8 @@ export interface AttendanceRecord {
 export type AttendanceScenario =
   | 'success'
   | 'empty'
-  | 'error';
+  | 'error'
+  | 'retry';
 
 const records: AttendanceRecord[] = [
   {
@@ -29,6 +30,8 @@ const records: AttendanceRecord[] = [
   },
 ];
 
+let retryAttempts = 0;
+
 export async function getAttendanceHistory(
   scenario: AttendanceScenario = 'success',
   delayMs = 800,
@@ -41,9 +44,21 @@ export async function getAttendanceHistory(
     throw new Error('No se pudo cargar el historial de asistencia.');
   }
 
+  if (scenario === 'retry') {
+    retryAttempts += 1;
+
+    if (retryAttempts === 1) {
+      throw new Error('Error temporal al cargar asistencias.');
+    }
+  }
+
   if (scenario === 'empty') {
     return [];
   }
 
   return records;
+}
+
+export function resetAttendanceRetry(): void {
+  retryAttempts = 0;
 }
