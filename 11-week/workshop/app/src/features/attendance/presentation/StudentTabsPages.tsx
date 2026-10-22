@@ -11,29 +11,6 @@ import {
   IonToolbar,
 } from '@ionic/react';
 
-export const AttendanceHistoryPage: React.FC = () => (
-  <IonPage>
-    <IonHeader>
-      <IonToolbar color="primary">
-        <IonTitle>Historial de asistencia</IonTitle>
-      </IonToolbar>
-    </IonHeader>
-    <IonContent className="ion-padding">
-      <h1>Mis asistencias</h1>
-      <p>Consulta los registros de asistencia de tus clases.</p>
-      <IonCard>
-        <IonCardHeader>
-          <IonCardTitle>Registro de asistencia</IonCardTitle>
-        </IonCardHeader>
-        <IonCardContent>
-          Aquí podrás consultar el curso, la fecha y el estado
-          de cada asistencia registrada.
-        </IonCardContent>
-      </IonCard>
-    </IonContent>
-  </IonPage>
-);
-
 export const ClassesPage: React.FC = () => (
   <IonPage>
     <IonHeader>
@@ -66,8 +43,10 @@ export const QrScanPage: React.FC = () => (
     </IonHeader>
     <IonContent className="ion-padding">
       <h1>Registrar asistencia</h1>
-      <p>Esta sección permitirá registrar tu asistencia
-        mediante el código QR generado por el profesor.</p>
+      <p>
+        Esta sección permitirá registrar tu asistencia
+        mediante el código QR generado por el profesor.
+      </p>
       <IonCard>
         <IonCardHeader>
           <IonCardTitle>Escaneo QR</IonCardTitle>
