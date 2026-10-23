@@ -11,6 +11,8 @@ import {
   IonToolbar,
 } from '@ionic/react';
 
+import { QrRegistrationForm } from '../forms/QrRegistrationForm';
+
 export const ClassesPage: React.FC = () => (
   <IonPage>
     <IonHeader>
@@ -18,9 +20,11 @@ export const ClassesPage: React.FC = () => (
         <IonTitle>Mis clases</IonTitle>
       </IonToolbar>
     </IonHeader>
+
     <IonContent className="ion-padding">
       <h1>Clases y sesiones</h1>
       <p>Consulta las clases asociadas a tus cursos.</p>
+
       <IonCard>
         <IonCardHeader>
           <IonCardTitle>Información de clases</IonCardTitle>
@@ -41,21 +45,27 @@ export const QrScanPage: React.FC = () => (
         <IonTitle>Registro QR</IonTitle>
       </IonToolbar>
     </IonHeader>
+
     <IonContent className="ion-padding">
       <h1>Registrar asistencia</h1>
       <p>
-        Esta sección permitirá registrar tu asistencia
-        mediante el código QR generado por el profesor.
+        Ingresa el código QR generado por el profesor
+        para validar tu asistencia.
       </p>
+
       <IonCard>
         <IonCardHeader>
-          <IonCardTitle>Escaneo QR</IonCardTitle>
+          <IonCardTitle>Código de la sesión</IonCardTitle>
         </IonCardHeader>
         <IonCardContent>
-          La integración con la cámara y el registro de
-          asistencia se implementarán posteriormente.
+          <QrRegistrationForm />
         </IonCardContent>
       </IonCard>
+
+      <p>
+        Esta es una demostración de la interfaz.
+        El registro real requiere conexión con el backend.
+      </p>
     </IonContent>
   </IonPage>
 );
